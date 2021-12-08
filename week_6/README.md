@@ -14,14 +14,16 @@ Where $i indicates the number of processors (1 to 24), appending the result to t
 ## SUM OF 3D MATRICES 
 
 - Be sure to be in section1/matrix3D_implementation directory, then you have two ways to compile and run this program:
-- Single run: `qsub just_run.sh`
+- Single run: 
+`qsub just_run.sh`
 This is the preferred way to run the code,  it will print in the single_output file the matrix (4x4x4 default using 24 processors) and total walltime, gather_communication walltime, and the dimensions of the matrix and grid of processors. 
 This script calls PBS routines asking for 24 processors in a node, setting a walltime only for 10 minutes using the DSSC queue. 
  Then once it access to the requested node, it will access to the previous work directory, load the OPENMPI 4.1.1+GNU-9.3.0 module and compile the C program **sum3Dmatrix_float.c** creating the executable **sum3D.x** .
 It will run the executable using the next command line
 `mpirun --mca coll ^tuned -np 24 ./sum3D.x <single_input 1>>single_output`
 Where single_input is a file that contains the desired dimension of the matrix and processors, and the tuned option for collective algorithms is deactived to avoid problems with huge matrices (optional)
-- Multiple run: `qsub sum3D.sh`
+- Multiple run: 
+`qsub sum3D.sh`
 This should be called when you just require data collection (In this case the matrix print lines in the code should be commented).
 It will follow the same steps as the single call script, but this time by means of a while loop will read the multiple_input file which can contain lines with different dimensions for several matrices as well as grid processors.
 For each line the script will iterate 5 times (default) the next comand :
